@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI integration lab
 
 # Controls when the workflow will run
 on:
@@ -13,25 +13,34 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  # This workflow contains a single job called "deploy"
+  deploy_html_file:
+    environment:
+      name: github-pages
+      url: ${{ steps.cicd_serve_lab.outputs.page_url }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+     - name: Fetch Code
+       uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Install nginx
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nginx
-     
-      - name: serve index.hyml
-        run: |
-          sudo rm -rf /var/www/html/*
-          sudo cp -r index.html /var/www/html/
+
+     - name: Configure Pages
+       uses: actions/configure-pages@v5
+
+
+     - name: Packaging My Files
+       uses: actions/upload-pages-artifact@v3
+       with:
+          path: '.' 
+     - name: Publishing to Live Web
+       id: cicd_serve_lab
+       uses: actions/deploy-pages@v4
