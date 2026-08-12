@@ -34,4 +34,4 @@ jobs:
       - name: serve index.hyml
         run: |
           sudo rm -rf /var/www/html/*
-          sudo cp -r public/* /var/www/html/
+          sudo cp -r index.html /var/www/html/
