@@ -44,4 +44,6 @@ jobs:
           cd cicd_pipeline_college_assignment
           sudo cp index.html /var/www/html/index.html
           sudo systemctl start nginx
+          sudo systemctl status nginx
+          
         "
