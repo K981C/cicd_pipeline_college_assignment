@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI integration lab
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "deploy"
+  deploy_html_file:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_ID_CLIENT }}
+        tenant-id: ${{ secrets.AZURE_ID_TENANT }}
+        subscription-id: ${{ secrets.AZURE_ID_SUBSCRIPTION }}
+
+    - name: Install Azure CLI SSH Extension
+      run: az extension add --name ssh
+
+    - name: Run Remote Commands via Azure AD SSH
+      run: |
+        az ssh vm --ip 70.153.136.245 --only-show-errors --local-user azureuser --MyResourceGroup K981C-Azure-VM_group --name cicd-lab --command "
+          sudo apt update
+          sudo apt install nginx
+          echo "installing nginx..."
+          cd cicd_pipeline_college_assignment
+          sudo cp index.html /var/www/html/index.html
+          sudo systemctl start nginx
+        "
