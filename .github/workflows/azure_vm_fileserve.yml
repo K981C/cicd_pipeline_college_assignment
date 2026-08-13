@@ -29,7 +29,7 @@ jobs:
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_ID_CLIENT }}
-        tenant-id: ${{ secrets.AZURE_ID_TENANT }}
+        tenant-id: ${{ secrets.TENENT_ID_AZURE}}
         subscription-id: ${{ secrets.AZURE_ID_SUBSCRIPTION }}
 
     - name: Install Azure CLI SSH Extension
