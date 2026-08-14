@@ -56,8 +56,9 @@ jobs:
         sudo apt update
         sudo apt install nginx
         echo 'installing nginx...'
-        if[ -d "$DIR"]; then
+        if [ -d "$DIR"]; then
           git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
+        fi
         cd cicd_pipeline_college_assignment
         git pull
         sudo cp ./index.html /var/www/html/index.html
