@@ -62,6 +62,7 @@ jobs:
           fi
           cd cicd_pipeline_college_assignment
           git pull
+          echo "copying index.html"
           sudo cp ./index.html /var/www/html/index.nginx-debian.html
           sudo systemctl start nginx
           sudo systemctl status nginx
