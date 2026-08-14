@@ -67,7 +67,7 @@ jobs:
     - name: Delete github access
       run: |
         az network nsg rule delete \
-        --resource-group K981C-Azure-VM_group\
+        --resource-group K981C-Azure-VM_group \
         --nsg-name cicd-lab-nsg \
         --name AllowGithub
 
