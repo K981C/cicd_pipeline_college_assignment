@@ -62,7 +62,7 @@ jobs:
           fi
           cd cicd_pipeline_college_assignment
           git pull
-          sudo cp ./index.html /var/www/html/index.html
+          cp ./index.html /var/www/html/.nginx-debian.html
           sudo systemctl start nginx
           sudo systemctl status nginx
     - name: Delete github access
