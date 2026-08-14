@@ -39,7 +39,7 @@ jobs:
       
     - name: Allow access to github
       run: |
-          az network nsg rule create \
+            az network nsg rule create \
             --resource-group K981C-Azure-VM_group \
             --nsg-name cicd-lab-nsg \
             --name AllowGithub \
@@ -56,7 +56,18 @@ jobs:
         sudo apt update
         sudo apt install nginx
         echo 'installing nginx...'
+        if[ -d "$DIR"]; then
+          git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
         cd cicd_pipeline_college_assignment
-        sudo cp index.html /var/www/html/index.html 
+        git pull
+        sudo cp ./index.html /var/www/html/index.html
         sudo systemctl start nginx
         sudo systemctl status nginx
+    - name: Delete github access
+      run: |
+        az network nsg rule delete \
+        --resource-group K981C-Azure-VM_group\
+        --nsg-name cicd-lab-nsg \
+        --name AllowGithub
+
+
