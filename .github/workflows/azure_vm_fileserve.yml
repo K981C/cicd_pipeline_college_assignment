@@ -53,17 +53,18 @@ jobs:
     - name: Run Remote Commands via Azure AD SSH
       run: |
         az ssh vm --local-user azureuser --resource-group K981C-Azure-VM_group --name cicd-lab
-        sudo apt update
-        sudo apt install nginx
-        echo 'installing nginx...'
-        if [ -d "$DIR"]; then
-          git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
-        fi
-        git pull
-        cd cicd_pipeline_college_assignment
-        sudo cp ./index.html /var/www/html/index.html
-        sudo systemctl start nginx
-        sudo systemctl status nginx
+          sudo apt update
+          sudo apt install nginx
+          echo 'installing nginx...'
+          DIR="cicd_pipeline_college_assignment"
+          if [ -d "$DIR"]; then
+            git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
+          fi
+          git pull
+          cd cicd_pipeline_college_assignment
+          sudo cp ./index.html /var/www/html/index.html
+          sudo systemctl start nginx
+          sudo systemctl status nginx
     - name: Delete github access
       run: |
         az network nsg rule delete \
