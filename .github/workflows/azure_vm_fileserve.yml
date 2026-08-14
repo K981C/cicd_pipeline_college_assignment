@@ -57,7 +57,7 @@ jobs:
           sudo apt install nginx
           echo 'installing nginx...'
           DIR="cicd_pipeline_college_assignment"
-          if [ ! -d "$DIR"]; then
+          if [ ! -d "$DIR" ]; then
             git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
           fi
           cd cicd_pipeline_college_assignment
