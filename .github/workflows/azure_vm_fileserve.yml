@@ -35,7 +35,7 @@ jobs:
     - name: Install Azure CLI SSH Extension
       run: az extension add --name ssh
     - name: Get Runner IP
-      run: echo "RUNNER_IP=$(curl -s https://ipify.org)" >> $GITHUB_ENV
+      run: echo "RUNNER_IP=$(curl -s https://api.ipify.org)" >> $GITHUB_ENV
       
     - name: Allow access to github
       run: |
