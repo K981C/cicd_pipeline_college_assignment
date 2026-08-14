@@ -1,14 +1,129 @@
-<head><title>302 Found</title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confetti Rickroll</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0b1552, #3b6ad1);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            margin-bottom: 24px;
+            font-size: clamp(2rem, 4vw, 4rem);
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+        .cat-button {
+            background: linear-gradient(135deg, #ffffff, #edf2ff);
+            border: 4px solid rgba(255,255,255,0.7);
+            border-radius: 26px;
+            padding: 14px 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0b1552;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cat-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 18px 34px rgba(0,0,0,0.28);
+        }
+        .cat-image {
+            display: block;
+            width: min(70vw, 500px);
+            height: auto;
+            border-radius: 28px;
+            box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+        }
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 20px;
+            opacity: 0.95;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
 <body>
-<center><h1>302 Found</h1></center>
-<hr><center>nginx/1.25.1</center>
-</body>
-</html>
-Code: SecurityRuleInvalidAddressPrefix
-Message: Security rule /subscriptions/6028bc29-48b1-452f-b1fd-59720b760c8e/resourceGroups/K981C-Azure-VM_group/providers/Microsoft.Network/networkSecurityGroups/cicd-lab-nsg/securityRules/AllowGitHubSSH has invalid Address prefix. Value provided: <html>
-<head><title>302 Found</title></head>
-<body>
-<center><h1>302 Found</h1></center>
-<hr><center>nginx/1.25.1</center>
+    <h1>Click the button for a surprise!</h1>
+    <button id="confettiButton" class="cat-button">Celebrate</button>
+    <script>
+        const button = document.getElementById('confettiButton');
+        const colors = ['#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#9b59b6', '#f39c12'];
+
+        function createConfettiPiece(startX, startY) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
+            const size = Math.floor(Math.random() * 12) + 8;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${Math.floor(size * 1.5)}px`;
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = `${startX}px`;
+            confetti.style.top = `${startY}px`;
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(confetti);
+            return confetti;
+        }
+
+        function animateConfetti(confetti) {
+            const duration = 800 + Math.random() * 400;
+            const startX = parseFloat(confetti.style.left);
+            const startY = parseFloat(confetti.style.top);
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 260 + Math.random() * 160;
+            const drift = (Math.random() - 0.5) * 60;
+            const startTime = performance.now();
+
+            function update(time) {
+                const progress = (time - startTime) / duration;
+                if (progress >= 1) {
+                    confetti.remove();
+                    return;
+                }
+                const x = startX + Math.cos(angle) * velocity * progress + drift * progress;
+                const y = startY + Math.sin(angle) * velocity * progress + progress * 140;
+                confetti.style.left = `${x}px`;
+                confetti.style.top = `${y}px`;
+                confetti.style.transform = `rotate(${progress * 900}deg)`;
+                requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function launchConfetti() {
+            const rect = button.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2;
+            const startY = rect.top + rect.height / 2;
+            for (let i = 0; i < 150; i++) {
+                const confetti = createConfettiPiece(startX, startY);
+                setTimeout(() => animateConfetti(confetti), i * 4);
+            }
+        }
+
+        button.addEventListener('click', () => {
+            launchConfetti();
+            const audio = new Audio('https://www.myinstants.com/media/sounds/rickroll-but-short.mp3');
+            audio.volume = 0.9;
+            audio.play().catch(() => {});
+
+            button.replaceWith(Object.assign(document.createElement('img'), {
+                src: 'https://i.pinimg.com/originals/23/51/bc/2351bc65b2b5d75cef146b7edddf805b.gif',
+                alt: 'Cat dancing',
+                className: 'cat-image'
+            }));
+        });
+    </script>
 </body>
 </html>
