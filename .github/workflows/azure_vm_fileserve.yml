@@ -42,7 +42,7 @@ jobs:
           RUNNER_IP=$(curl -s https://ipify.org)
           az network nsg rule create \
             --resource-group K981C-Azure-VM_group \
-            --nsg-name K981C-cicd-lab-nsg \
+            --nsg-name cicd-lab-nsg \
             --name AllowGithub \
             --priority 150 \
             --destination-port-ranges 22 \
