@@ -39,7 +39,6 @@ jobs:
       
     - name: Allow access to github
       run: |
-          RUNNER_IP=$(curl -s https://ipify.org)
           az network nsg rule create \
             --resource-group K981C-Azure-VM_group \
             --nsg-name cicd-lab-nsg \
