@@ -34,10 +34,26 @@ jobs:
 
     - name: Install Azure CLI SSH Extension
       run: az extension add --name ssh
+    - name: Get Runner IP
+      run: echo "RUNNER_IP=$(curl -s https://ipify.org)" >> $GITHUB_ENV
+      
+    - name: Allow access to github
+      run: |
+          RUNNER_IP=$(curl -s https://ipify.org)
+          az network nsg rule create \
+            --resource-group K981C-Azure-VM_group \
+            --nsg-name K981C-cicd-lab-nsg \
+            --name AllowGithub \
+            --priority 150 \
+            --destination-port-ranges 22 \
+            --protocol Tcp \
+            --source-address-prefixes "$RUNNER_IP" \
+            --access Allow
 
+        
     - name: Run Remote Commands via Azure AD SSH
       run: |
-        az ssh vm --ip 70.153.136.245 --local-user azureuser --MyResourceGroup K981C-Azure-VM_group --name cicd-lab --command "
+        az ssh vm --ip 70.153.136.245 --local-user azureuser --resource-group K981C-Azure-VM_group --name cicd-lab --script "
           sudo apt update
           sudo apt install nginx
           echo "installing nginx..."
@@ -45,5 +61,4 @@ jobs:
           sudo cp index.html /var/www/html/index.html
           sudo systemctl start nginx
           sudo systemctl status nginx
-          
         "
