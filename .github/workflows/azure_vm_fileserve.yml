@@ -60,8 +60,8 @@ jobs:
           if [ -d "$DIR"]; then
             git clone https://github.com/K981CPersonal/cicd_pipeline_college_assignment
           fi
-          git pull
           cd cicd_pipeline_college_assignment
+          git pull
           sudo cp ./index.html /var/www/html/index.html
           sudo systemctl start nginx
           sudo systemctl status nginx
