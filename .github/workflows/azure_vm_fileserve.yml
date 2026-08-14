@@ -52,11 +52,11 @@ jobs:
         
     - name: Run Remote Commands via Azure AD SSH
       run: |
-        az ssh vm --ip 70.153.136.245 --local-user azureuser --resource-group K981C-Azure-VM_group --name cicd-lab --scripts "
-          sudo apt update
-          sudo apt install nginx
-          echo 'installing nginx...'
-          cd cicd_pipeline_college_assignment
-          sudo cp index.html /var/www/html/index.html 
-          sudo systemctl start nginx
-          sudo systemctl status nginx "
+        az ssh vm --local-user azureuser --resource-group K981C-Azure-VM_group --name cicd-lab
+        sudo apt update
+        sudo apt install nginx
+        echo 'installing nginx...'
+        cd cicd_pipeline_college_assignment
+        sudo cp index.html /var/www/html/index.html 
+        sudo systemctl start nginx
+        sudo systemctl status nginx
